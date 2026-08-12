@@ -46,12 +46,12 @@ function HeroSection() {
             />
           </figure>
           <div className="hidden absolute rounded-full md:block md:w-30 md:h-30 -top-8 -right-10">
-              <Image
-                className="object-cover rounded-full"
-                src={"/hero2.jpg"}
-                alt="hero2"
-                fill
-              />
+            <Image
+              className="object-cover rounded-full"
+              src={"/hero2.jpg"}
+              alt="hero2"
+              fill
+            />
           </div>
         </div>
       </Container>
