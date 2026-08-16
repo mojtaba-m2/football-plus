@@ -2,7 +2,22 @@ import Image from "next/image";
 import Container from "../Container";
 import NewsCard from "../cards/NewsCard";
 
-function LatestNews() {
+export interface INewsData {
+  id?: number;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  date: string;
+}
+
+async function LatestNews() {
+  const response = await fetch("http://localhost:8000/news");
+
+  const data = (await response.json()) as INewsData[];
+
+  console.log(data);
+
   return (
     <div className="relative p-4 mt-8 md:mt-20">
       <Image
@@ -20,10 +35,9 @@ function LatestNews() {
           </h1>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-10">
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
+            {data.map((item: INewsData) => (
+              <NewsCard key={item.id} {...item} />
+            ))}
           </div>
         </div>
       </Container>
