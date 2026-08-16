@@ -1,9 +1,22 @@
 import Image from "next/image";
 import { INewsData } from "../home/LatestNews";
 
-function NewsCard({ image, category, title, description, date }: INewsData) {
+interface INewsCardProps extends INewsData {
+  className?: string;
+}
+
+function NewsCard({
+  image,
+  category,
+  title,
+  description,
+  date,
+  className,
+}: INewsCardProps) {
   return (
-    <article className="flex flex-col bg-white w-full  shadow-[0px_12px_45px_rgba(255,255,255,0.45)]">
+    <article
+      className={`flex flex-col bg-white w-full  shadow-[0px_12px_45px_rgba(255,255,255,0.45)] ${className}`}
+    >
       <figure className="relative w-full h-36">
         <Image
           className="object-cover object-center"
