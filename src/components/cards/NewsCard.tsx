@@ -15,7 +15,7 @@ function NewsCard({
 }: INewsCardProps) {
   return (
     <article
-      className={`flex flex-col bg-white w-full  shadow-[0px_12px_45px_rgba(255,255,255,0.45)] ${className}`}
+      className={`flex flex-col bg-white w-full shadow-[0px_12px_45px_rgba(255,255,255,0.45)] ${className}`}
     >
       <figure className="relative w-full h-36">
         <Image
