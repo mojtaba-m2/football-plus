@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { INewsData } from "../home/LatestNews";
+import { INewsData } from "@/types/news";
 
 interface INewsCardProps extends INewsData {
   className?: string;
@@ -17,18 +17,18 @@ function NewsCard({
     <article
       className={`flex flex-col bg-white w-full shadow-[0px_12px_45px_rgba(255,255,255,0.45)] ${className}`}
     >
-      <figure className="relative w-full h-36">
+      <figure className="relative w-full aspect-square">
         <Image
           className="object-cover object-center"
           src={image}
-          alt="newsImage"
+          alt={title}
           fill
         />
       </figure>
       <div className="flex flex-1 flex-col justify-between items-start p-3">
         <span className="text-sm text-green-600 md:text-xl">{category}</span>
 
-        <h3 className="font-bold lg:text-xl"> {title}</h3>
+        <h3 className="font-bold lg:text-xl">{title}</h3>
 
         <p className="text-gray-600 lg:font-bold line-clamp-2">{description}</p>
 

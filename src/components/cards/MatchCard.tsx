@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IMatchData } from "../home/TodayMatches";
+import { IMatchData } from "@/types/matche";
 
 function MatchCard({
   league,

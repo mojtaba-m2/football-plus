@@ -1,15 +1,7 @@
 import Image from "next/image";
 import Container from "../Container";
 import NewsCard from "../cards/NewsCard";
-
-export interface INewsData {
-  id?: number;
-  title: string;
-  description: string;
-  category: string;
-  image: string;
-  date: string;
-}
+import { INewsData } from "@/types/news";
 
 async function LatestNews() {
   const response = await fetch("http://localhost:8000/news");

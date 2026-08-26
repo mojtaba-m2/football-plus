@@ -4,17 +4,9 @@ import Image from "next/image";
 import Container from "../Container";
 import MatchCard from "../cards/MatchCard";
 import { useEffect, useRef, useState } from "react";
+import { IMatchData } from "@/types/matche";
 
-export interface IMatchData {
-  id?: number;
-  league: string;
-  homeTeam: string;
-  awayTeam: string;
-  homeLogo: string;
-  awayLogo: string;
-  date: string;
-  time: string;
-}
+
 
 function TodayMatches() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -102,7 +94,7 @@ function TodayMatches() {
         <div className="relative z-10 flex justify-center mt-6 w-full lg:w-1/3 mx-auto bg-white/30 overflow-hidden">
           <div
             className={`flex ${isTransitionEnabled ? "transition-transform duration-500" : ""}`}
-            style={{ transform: `translateX(${currentIndex * 100}%)` }}
+            style={{ transform: `translateX(${currentIndex * 100}%)`}}
           >
             {extendData.map((item, index) => (
               <MatchCard key={`${item.id}-${index}`} {...item} />
