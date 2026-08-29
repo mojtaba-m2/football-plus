@@ -2,6 +2,7 @@ import Image from "next/image";
 import Container from "../Container";
 import NewsCard from "../cards/NewsCard";
 import { INewsData } from "@/types/news";
+import Link from "next/link";
 
 async function LatestNews() {
   const response = await fetch("http://localhost:8000/news");
@@ -27,11 +28,12 @@ async function LatestNews() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-10">
             {data.map((item: INewsData, index) => (
-              <NewsCard
-                key={item.id}
-                {...item}
-                className={index >= 3 ? "hidden md:block" : ""}
-              />
+              <Link key={item.id} href={`/news/${item.id}`} className="h-full">
+                <NewsCard
+                  {...item}
+                  className={`${index >= 3 ? "hidden md:block" : ""} shadow-[0px_12px_45px_rgba(255,255,255,0.45)]`}
+                />
+              </Link>
             ))}
           </div>
         </div>
