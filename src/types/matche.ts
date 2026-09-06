@@ -7,4 +7,5 @@ export interface IMatchData {
   awayLogo: string;
   date: string;
   time: string;
+  day:string
 }

@@ -9,7 +9,7 @@ const navLinks = [
   { id: 1, title: "خانه", href: "/" },
   { id: 2, title: "اخبار فوتبالی", href: "/news" },
   { id: 3, title: "مسابقات", href: "/matches" },
-  { id: 4, title: "پیش بینی", href: "/polls" },
+  { id: 4, title: "پیش بینی", href: "/predictions" },
 ];
 
 function Navbar() {

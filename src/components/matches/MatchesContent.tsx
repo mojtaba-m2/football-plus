@@ -1,4 +1,4 @@
-"use client";
+
 
 import MatchesFilter from "./MatchesFilter";
 import MatchesList from "./MatchesList";
