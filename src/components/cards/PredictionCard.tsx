@@ -2,16 +2,20 @@ import { IMatchData } from "@/types/matche";
 import Image from "next/image";
 import Link from "next/link";
 
+interface IPredictionCardProps extends IMatchData {
+  showMoreLink?: boolean;
+}
+
 function PredictionCard({
   awayLogo,
   awayTeam,
   date,
   homeLogo,
   homeTeam,
-  league,
   time,
   day,
-}: IMatchData) {
+  showMoreLink,
+}: IPredictionCardProps) {
   return (
     <div className="flex flex-col justify-center py-4 items-center bg-gray-600 w-full m-auto">
       <div className="flex w-full items-center justify-between p-2">
@@ -71,9 +75,14 @@ function PredictionCard({
           ثبت پیش بینی
         </button>
 
-        <Link href={"#"} className="text-blue-200 lg:font-semibold">
-          برای پیش بینی بازی های بیشتر کلیک کنید
-        </Link>
+        {showMoreLink && (
+          <Link
+            href={"/predictions"}
+            className="text-blue-200 lg:font-semibold"
+          >
+            برای پیش بینی بازی های بیشتر کلیک کنید
+          </Link>
+        )}
       </div>
     </div>
   );
