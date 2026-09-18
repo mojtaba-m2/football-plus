@@ -1,7 +1,13 @@
 import Container from "@/components/Container";
 import MatchesContent from "@/components/matches/MatchesContent";
+import { IMatchData } from "@/types/matche";
 
 async function MatchesPage() {
+
+  const response = await fetch("http://localhost:8000/matches")
+
+  const data = await response.json() as IMatchData[]
+
   return (
     <div>
       <Container>
@@ -11,7 +17,7 @@ async function MatchesPage() {
           <p className="mt-2 lg:text-2xl">برنامه مسابقات فوتبال پیش رو</p>
         </header>
 
-        <MatchesContent />
+        <MatchesContent initialData={data}/>
       </Container>
     </div>
   );

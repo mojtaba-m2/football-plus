@@ -7,5 +7,8 @@ export interface IMatchData {
   awayLogo: string;
   date: string;
   time: string;
-  day:string
+  day: string;
+  status: string;
 }
+
+export type TSelectedUser = "all" | "today" | "tomorrow";
