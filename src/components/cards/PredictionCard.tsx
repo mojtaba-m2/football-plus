@@ -1,12 +1,17 @@
+"use client";
+
 import { IMatchData } from "@/types/matche";
+import { IPredictionsData } from "@/types/predictions";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface IPredictionCardProps extends IMatchData {
   showMoreLink?: boolean;
 }
 
 function PredictionCard({
+  id,
   awayLogo,
   awayTeam,
   date,
@@ -16,6 +21,82 @@ function PredictionCard({
   day,
   showMoreLink,
 }: IPredictionCardProps) {
+  const [homeTeamGoals, setHomeTeamGoals] = useState("");
+
+  const [awayTeamGoals, setAwayTeamGoals] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (!message) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
+
+  const handelPredictionUser = async () => {
+    if (homeTeamGoals === "" || awayTeamGoals === "") {
+      setMessage("لطفا نتیجه هر دو تیم را وارد کنید");
+      return;
+    }
+
+    const homeGoalNumber = Number(homeTeamGoals);
+    const awayGoalNumber = Number(awayTeamGoals);
+
+    if (
+      homeGoalNumber < 0 ||
+      homeGoalNumber > 10 ||
+      awayGoalNumber < 0 ||
+      awayGoalNumber > 10
+    ) {
+      setMessage("تعداد گل باید بین 0 تا 10 باشد");
+
+      return;
+    }
+
+    const userId = 1;
+
+    const response = await fetch(
+      `http://localhost:8000/predictions?userId=${userId}&matchId=${id}`,
+    );
+
+    const existingPredictions = (await response.json()) as IPredictionsData[];
+
+    if (existingPredictions.length > 0) {
+      setMessage("شما قبلا این بازی را پیش بینی کردید");
+      return;
+    }
+
+    const prediction: IPredictionsData = {
+      userId: userId,
+      matchId: Number(id),
+      homeGoal: homeGoalNumber,
+      awayGoal: awayGoalNumber,
+    };
+
+    const postResponse = await fetch("http://localhost:8000/predictions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(prediction),
+    });
+
+    if (!postResponse.ok) {
+      setMessage("ثبت پیش بینی با خطا مواجه شد");
+    } else {
+      setMessage("پیش بینی شما با موفقیت ثبت شد");
+
+      setHomeTeamGoals("");
+      setAwayTeamGoals("");
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center py-4 items-center bg-gray-600 w-full m-auto">
       <div className="flex w-full items-center justify-between p-2">
@@ -34,6 +115,10 @@ function PredictionCard({
             </h3>
           </div>
           <input
+            onChange={(e) => {
+              setHomeTeamGoals(e.target.value);
+            }}
+            value={homeTeamGoals}
             min={0}
             max={10}
             className="bg-gray-300 w-12 text-center mx-2"
@@ -46,6 +131,10 @@ function PredictionCard({
 
         <div className="flex items-center justify-center">
           <input
+            onChange={(e) => {
+              setAwayTeamGoals(e.target.value);
+            }}
+            value={awayTeamGoals}
             min={0}
             max={10}
             className="bg-gray-300 w-12 text-center mx-2"
@@ -71,7 +160,11 @@ function PredictionCard({
         <span className="text-center mb-5">{time}</span>
       </div>
       <div className="flex flex-col items-center gap-2 mt-2">
-        <button className="px-2 py-1 lg:px-4 lg:py-2 bg-green-600 text-white lg:font-extrabold rounded cursor-pointer">
+        <p className="text-white">{message}</p>
+        <button
+          onClick={handelPredictionUser}
+          className="px-2 py-1 lg:px-4 lg:py-2 bg-green-600 text-white lg:font-extrabold rounded cursor-pointer"
+        >
           ثبت پیش بینی
         </button>
 
