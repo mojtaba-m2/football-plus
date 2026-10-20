@@ -29,7 +29,6 @@ function HeroSection() {
               <li>اخرین اخبار و تحلیل ها</li>
               <li>بازی های امروز</li>
               <li>پیش بینی</li>
-              <li>گل های برتر ماه</li>
             </ul>
           </div>
         </div>

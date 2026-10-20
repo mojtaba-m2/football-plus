@@ -12,12 +12,3 @@ export interface IMatchData {
 }
 
 export type TSelectedUser = "all" | "today" | "tomorrow";
-
-export interface IPrediction {
-  id?: number;
-  matchID: number;
-  homeTeamName: string;
-  homeTeamGoal: string;
-  awayTeamName: string;
-  awayTeamGoal: string;
-}

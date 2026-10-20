@@ -4,12 +4,12 @@ import NewsCard from "../cards/NewsCard";
 import { INewsData } from "@/types/news";
 import Link from "next/link";
 
-async function LatestNews() {
-  const response = await fetch("http://localhost:8000/news");
+interface ILatestNewsProps {
+  newsData: INewsData[];
+}
 
-  const allData = (await response.json()) as INewsData[];
-
-  const data = allData.slice(0, 6);
+ function LatestNews({ newsData }: ILatestNewsProps) {
+  const data = newsData.slice(0, 6);
   return (
     <div className="relative p-4 mt-8 md:mt-20">
       <Image
@@ -27,7 +27,7 @@ async function LatestNews() {
           </h1>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-10">
-            {data.map((item: INewsData, index) => (
+            {data.map((item, index) => (
               <Link key={item.id} href={`/news/${item.id}`} className="h-full">
                 <NewsCard
                   {...item}

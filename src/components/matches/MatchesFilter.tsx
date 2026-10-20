@@ -13,7 +13,8 @@ const filters: { value: TSelectedUser; label: string }[] = [
 
 function MatchesFilter({ selectedDate, onDateChange }: IMatchesFilterProps) {
   return (
-    <form action="" className="flex justify-center gap-6 lg:text-2xl">
+    <div className="flex justify-center gap-6 lg:text-2xl">
+
       {filters.map((filter) => (
         <div key={filter.value} className="flex items-center gap-2">
           <input
@@ -29,7 +30,7 @@ function MatchesFilter({ selectedDate, onDateChange }: IMatchesFilterProps) {
           <label htmlFor={filter.value}>{filter.label}</label>
         </div>
       ))}
-    </form>
+    </div>
   );
 }
 

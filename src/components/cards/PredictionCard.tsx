@@ -27,6 +27,8 @@ function PredictionCard({
 
   const [message, setMessage] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (!message) {
       return;
@@ -42,8 +44,13 @@ function PredictionCard({
   }, [message]);
 
   const handelPredictionUser = async () => {
+    if (isSubmitting) {
+      return;
+    }
+
     if (homeTeamGoals === "" || awayTeamGoals === "") {
       setMessage("لطفا نتیجه هر دو تیم را وارد کنید");
+
       return;
     }
 
@@ -51,6 +58,8 @@ function PredictionCard({
     const awayGoalNumber = Number(awayTeamGoals);
 
     if (
+      !Number.isInteger(homeGoalNumber) ||
+      !Number.isInteger(awayGoalNumber) ||
       homeGoalNumber < 0 ||
       homeGoalNumber > 10 ||
       awayGoalNumber < 0 ||
@@ -63,37 +72,52 @@ function PredictionCard({
 
     const userId = 1;
 
-    const response = await fetch(
-      `http://localhost:8000/predictions?userId=${userId}&matchId=${id}`,
-    );
+    setIsSubmitting(true);
+    setMessage("");
 
-    const existingPredictions = (await response.json()) as IPredictionsData[];
+    try {
+      const checkResponse = await fetch(
+        `http://localhost:8000/predictions?userId=${userId}&matchId=${id}`,
+        { cache: "no-store" },
+      );
 
-    if (existingPredictions.length > 0) {
-      setMessage("شما قبلا این بازی را پیش بینی کردید");
-      return;
-    }
+      if (!checkResponse.ok) {
+        throw new Error("بررسی پیش بینی قبلی ناموفق بود");
+      }
 
-    const prediction: IPredictionsData = {
-      userId: userId,
-      matchId: Number(id),
-      homeGoal: homeGoalNumber,
-      awayGoal: awayGoalNumber,
-    };
+      const previousPredictions =
+        (await checkResponse.json()) as IPredictionsData[];
 
-    const postResponse = await fetch("http://localhost:8000/predictions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(prediction),
-    });
+      if (previousPredictions.length > 0) {
+        setMessage("شما قبلا این بازی را پیش بینی کردید");
 
-    if (!postResponse.ok) {
-      setMessage("ثبت پیش بینی با خطا مواجه شد");
-    } else {
+        return;
+      }
+
+      const prediction: IPredictionsData = {
+        userId: userId,
+        matchId: Number(id),
+        homeGoal: homeGoalNumber,
+        awayGoal: awayGoalNumber,
+      };
+
+      const postResponse = await fetch("http://localhost:8000/predictions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(prediction),
+      });
+
+      if (!postResponse.ok) {
+        throw new Error("ثبت پیش بینی با خطا مواجه شد");
+      }
       setMessage("پیش بینی شما با موفقیت ثبت شد");
 
       setHomeTeamGoals("");
       setAwayTeamGoals("");
+    } catch {
+      setMessage("خطا در ارتباط با سرور لطفا دوباره تلاش کنید");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -163,9 +187,10 @@ function PredictionCard({
         <p className="text-white">{message}</p>
         <button
           onClick={handelPredictionUser}
+          disabled={isSubmitting}
           className="px-2 py-1 lg:px-4 lg:py-2 bg-green-600 text-white lg:font-extrabold rounded cursor-pointer"
         >
-          ثبت پیش بینی
+          {isSubmitting ? "در حال ثبت ..." : "ثبت پیش بینی"}
         </button>
 
         {showMoreLink && (

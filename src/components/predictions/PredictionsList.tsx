@@ -1,12 +1,9 @@
-import { IMatchData } from "@/types/matche";
 import PredictionCard from "../cards/PredictionCard";
-
+import getMatches from "@/api/matches";
 
 async function PredictionsList() {
-  const response = await fetch("http://localhost:8000/matches");
+  const data = await getMatches();
 
-  const data = (await response.json()) as IMatchData[];
-  
   return (
     <div>
       <h2 className="text-xl text-center lg:mb-4">مسابقات</h2>

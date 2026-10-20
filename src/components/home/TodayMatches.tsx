@@ -6,14 +6,14 @@ import MatchCard from "../cards/MatchCard";
 import { useEffect, useRef, useState } from "react";
 import { IMatchData } from "@/types/matche";
 
+interface ITodayMatchesProps {
+  matches: IMatchData[];
+}
 
-
-function TodayMatches() {
+function TodayMatches({ matches }: ITodayMatchesProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const [data, setData] = useState<IMatchData[]>([]);
 
   const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
 
@@ -33,16 +33,10 @@ function TodayMatches() {
     };
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:8000/matches")
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
-
-  const extendData = data.length > 0 ? [...data, data[0]] : [];
+  const extendData = matches.length > 0 ? [...matches, matches[0]] : [];
 
   useEffect(() => {
-    if (data.length === 0 || !isVisible) {
+    if (matches.length === 0 || !isVisible) {
       return;
     }
 
@@ -51,13 +45,13 @@ function TodayMatches() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [data, isVisible]);
+  }, [matches, isVisible]);
 
   useEffect(() => {
-    if (data.length === 0) {
+    if (matches.length === 0) {
       return;
     }
-    if (currentIndex === data.length) {
+    if (currentIndex === matches.length) {
       const timeout = setTimeout(() => {
         setIsTransitionEnabled(false);
 
@@ -70,7 +64,7 @@ function TodayMatches() {
     if (!isTransitionEnabled) {
       setIsTransitionEnabled(true);
     }
-  }, [currentIndex, data.length, isTransitionEnabled]);
+  }, [currentIndex, matches.length, isTransitionEnabled]);
 
   return (
     <section
@@ -94,7 +88,7 @@ function TodayMatches() {
         <div className="relative z-10 flex justify-center mt-6 w-full lg:w-1/3 mx-auto bg-white/30 overflow-hidden">
           <div
             className={`flex ${isTransitionEnabled ? "transition-transform duration-500" : ""}`}
-            style={{ transform: `translateX(${currentIndex * 100}%)`}}
+            style={{ transform: `translateX(${currentIndex * 100}%)` }}
           >
             {extendData.map((item, index) => (
               <MatchCard key={`${item.id}-${index}`} {...item} />

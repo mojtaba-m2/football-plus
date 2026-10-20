@@ -1,22 +1,40 @@
+import getNews from "@/api/news";
 import { INewsData } from "@/types/news";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+
+export const revalidate = 300;
 
 interface INewsDetailProps {
   params: Promise<{ id: string }>;
   searchParams: Promise<{}>;
 }
 
+export async function generateStaticParams() {
+  const news = await getNews();
+
+  return news.map((item) => ({
+    id: String(item.id),
+  }));
+}
+
 async function NewsDetail(props: INewsDetailProps) {
   const { id } = await props.params;
 
-  console.log(id);
+  const response = await fetch(`http://localhost:8000/news/${id}`, {
+    next: { revalidate: 300 },
+  });
 
-  const response = await fetch(`http://localhost:8000/news/${id}`);
+  if (response.status === 404) {
+    notFound();
+  }
+
+  if (!response.ok) {
+    throw new Error("دریافت اطلاعات خبر با خطا مواجه شد");
+  }
 
   const data = (await response.json()) as INewsData;
-
-  console.log(data);
 
   return (
     <div>

@@ -1,12 +1,13 @@
+import getNews from "@/api/news";
 import NewsCard from "@/components/cards/NewsCard";
 import Container from "@/components/Container";
 import { INewsData } from "@/types/news";
 import Link from "next/link";
 
-async function NewsPage() {
-  const response = await fetch("http://localhost:8000/news");
+export const revalidate = 300;
 
-  const data = (await response.json()) as INewsData[];
+async function NewsPage() {
+  const data = await getNews();
 
   return (
     <div className="min-h-screen bg-gray-200">
