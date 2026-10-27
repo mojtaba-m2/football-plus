@@ -70,7 +70,7 @@ Desktop
 Clone the project from GitHub:
 
 bash
-git clone <repository-url>
+git clone <https://github.com/mojtaba-m2/football-plus>
 
 
 Navigate to the project directory:
