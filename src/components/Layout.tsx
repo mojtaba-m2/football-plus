@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./Navbar";
+import AppShell from "./AppShell";
 
 interface ILayoutProps {
   children: React.ReactNode;
@@ -8,8 +8,7 @@ interface ILayoutProps {
 function Layout({ children }: ILayoutProps) {
   return (
     <div>
-      <Navbar />
-      {children}
+      <AppShell>{children}</AppShell>
     </div>
   );
 }

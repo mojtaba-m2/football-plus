@@ -33,7 +33,7 @@ function HeroSection() {
           </div>
         </div>
 
-        <div className="w-24 h-36 z-20 top-20 md:w-36 md:h-52 md:left-20 md:top-40 xl:w-52 xl:h-80 xl:left-56 rounded-full absolute  xl:top-60 left-10 bg-center bg-cover shadow-[0px_12px_45px_rgba(255,255,255,0.45)]">
+        <div className="w-24 h-36 z-40 top-20 md:w-36 md:h-52 md:left-20 md:top-40 xl:w-52 xl:h-80 xl:left-56 rounded-full absolute  xl:top-60 left-10 bg-center bg-cover shadow-[0px_12px_45px_rgba(255,255,255,0.45)]">
           <figure>
             <Image
               className="absolute object-cover object-center rounded-full"
