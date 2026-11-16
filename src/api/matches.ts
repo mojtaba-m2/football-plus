@@ -1,15 +1,24 @@
-import { IMatchData } from "@/types/matche";
+// //  استفاده از جیسون سرور
+// import { IMatchData } from "@/types/matche";
 
-async function getMatches(): Promise<IMatchData[]> {
-  const responseMatchesData = await fetch("http://localhost:8000/matches", {
-    next: { revalidate: 86400 },
-  });
+// async function getMatches(): Promise<IMatchData[]> {
+//   const responseMatchesData = await fetch("http://localhost:8000/matches", {
+//     next: { revalidate: 86400 },
+//   });
 
-  if (!responseMatchesData.ok) {
-    throw new Error("دریافت مسابقات ناموفق بود");
-  }
+//   if (!responseMatchesData.ok) {
+//     throw new Error("دریافت مسابقات ناموفق بود");
+//   }
 
-  return responseMatchesData.json();
-}
+//   return responseMatchesData.json();
+// }
+
+// export default getMatches;
+
+///////////////////////////////////////
+
+// استفاده از دیتای داخلی (mock)
+
+import { getMatches } from "@/mocks/mockApi";
 
 export default getMatches;

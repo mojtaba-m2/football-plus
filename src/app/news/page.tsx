@@ -1,7 +1,6 @@
 import getNews from "@/api/news";
 import NewsCard from "@/components/cards/NewsCard";
 import Container from "@/components/Container";
-import { INewsData } from "@/types/news";
 import Link from "next/link";
 
 export const revalidate = 300;

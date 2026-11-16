@@ -1,5 +1,6 @@
 "use client";
 
+import { addPrediction, getUserPrediction } from "@/mocks/mockApi";
 import { IMatchData } from "@/types/matche";
 import { IPredictionsData } from "@/types/predictions";
 import Image from "next/image";
@@ -72,25 +73,68 @@ function PredictionCard({
 
     const userId = 1;
 
+    // استفاده از جیسون سرور
+
+    // setIsSubmitting(true);
+    // setMessage("");
+
+    // try {
+    //   const checkResponse = await fetch(
+    //     `http://localhost:8000/predictions?userId=${userId}&matchId=${id}`,
+    //     { cache: "no-store" },
+    //   );
+
+    //   if (!checkResponse.ok) {
+    //     throw new Error("بررسی پیش بینی قبلی ناموفق بود");
+    //   }
+
+    //   const previousPredictions =
+    //     (await checkResponse.json()) as IPredictionsData[];
+
+    //   if (previousPredictions.length > 0) {
+    //     setMessage("شما قبلا این بازی را پیش بینی کردید");
+
+    //     return;
+    //   }
+
+    //   const prediction: IPredictionsData = {
+    //     userId: userId,
+    //     matchId: Number(id),
+    //     homeGoal: homeGoalNumber,
+    //     awayGoal: awayGoalNumber,
+    //   };
+
+    //   const postResponse = await fetch("http://localhost:8000/predictions", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(prediction),
+    //   });
+
+    //   if (!postResponse.ok) {
+    //     throw new Error("ثبت پیش بینی با خطا مواجه شد");
+    //   }
+    //   setMessage("پیش بینی شما با موفقیت ثبت شد");
+
+    //   setHomeTeamGoals("");
+    //   setAwayTeamGoals("");
+    // } catch {
+    //   setMessage("خطا در ارتباط با سرور لطفا دوباره تلاش کنید");
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
+
+    ////////////////////////////////////////////////////
+
+    // // استفاده از دیتای داخلی (mock)
+
     setIsSubmitting(true);
     setMessage("");
 
     try {
-      const checkResponse = await fetch(
-        `http://localhost:8000/predictions?userId=${userId}&matchId=${id}`,
-        { cache: "no-store" },
-      );
+      const previousPrediction = await getUserPrediction(userId, id);
 
-      if (!checkResponse.ok) {
-        throw new Error("بررسی پیش بینی قبلی ناموفق بود");
-      }
-
-      const previousPredictions =
-        (await checkResponse.json()) as IPredictionsData[];
-
-      if (previousPredictions.length > 0) {
+      if (previousPrediction) {
         setMessage("شما قبلا این بازی را پیش بینی کردید");
-
         return;
       }
 
@@ -101,21 +145,14 @@ function PredictionCard({
         awayGoal: awayGoalNumber,
       };
 
-      const postResponse = await fetch("http://localhost:8000/predictions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(prediction),
-      });
+      await addPrediction(prediction);
 
-      if (!postResponse.ok) {
-        throw new Error("ثبت پیش بینی با خطا مواجه شد");
-      }
       setMessage("پیش بینی شما با موفقیت ثبت شد");
 
       setHomeTeamGoals("");
       setAwayTeamGoals("");
     } catch {
-      setMessage("خطا در ارتباط با سرور لطفا دوباره تلاش کنید");
+      setMessage("خطا در ثبت پیش بینی، لطفا دوباره تلاش کنید");
     } finally {
       setIsSubmitting(false);
     }

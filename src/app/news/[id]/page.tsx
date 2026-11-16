@@ -1,5 +1,4 @@
-import getNews from "@/api/news";
-import { INewsData } from "@/types/news";
+import { getNews, getNewsById } from "@/mocks/mockApi";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,7 +11,7 @@ interface INewsDetailProps {
 }
 
 export async function generateStaticParams() {
-  const news = await getNews();
+  const news = await getNews()
 
   return news.map((item) => ({
     id: String(item.id),
@@ -22,19 +21,30 @@ export async function generateStaticParams() {
 async function NewsDetail(props: INewsDetailProps) {
   const { id } = await props.params;
 
-  const response = await fetch(`http://localhost:8000/news/${id}`, {
-    next: { revalidate: 300 },
-  });
+  //  استفاده از جیسون سرور
+  // const response = await fetch(`http://localhost:8000/news/${id}`, {
+  //   next: { revalidate: 300 },
+  // });
 
-  if (response.status === 404) {
+  // if (response.status === 404) {
+  //   notFound();
+  // }
+
+  // if (!response.ok) {
+  //   throw new Error("دریافت اطلاعات خبر با خطا مواجه شد");
+  // }
+
+  // const data = (await response.json()) as INewsData;
+
+  ///////////////////////////////////////////////
+
+  // استفاده از دیتای داخلی (mock)
+
+  const data = await getNewsById(Number(id));
+
+  if (!data) {
     notFound();
   }
-
-  if (!response.ok) {
-    throw new Error("دریافت اطلاعات خبر با خطا مواجه شد");
-  }
-
-  const data = (await response.json()) as INewsData;
 
   return (
     <div>
