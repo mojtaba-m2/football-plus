@@ -160,10 +160,10 @@ function PredictionCard({
 
   return (
     <div className="flex flex-col justify-center py-4 items-center bg-gray-600 w-full m-auto">
-      <div className="flex w-full items-center justify-between p-2">
-        <div className="flex items-center justify-center">
+      <div className="flex w-full items-center justify-between gap-1 px-1">
+        <div className="flex min-w-0 items-center justify-center ">
           <div className="flex items-center">
-            <figure className="size-10 lg:size-16 relative">
+            <figure className="relative size-10 shrink-0 lg:size-16">
               <Image
                 className="object-contain"
                 src={homeLogo}
@@ -171,7 +171,7 @@ function PredictionCard({
                 fill
               />
             </figure>
-            <h3 className="mx-2 text-base md:text-lg lg:text-xl text-white">
+            <h3 className="mx-1 min-w-0 text-sm md:text-lg lg:text-xl text-white">
               {homeTeam}
             </h3>
           </div>
@@ -182,15 +182,15 @@ function PredictionCard({
             value={homeTeamGoals}
             min={0}
             max={10}
-            className="bg-gray-300 w-12 text-center mx-2"
+            className="bg-gray-300 w-10 shrink-0 text-center mx-1 "
             type="number"
             placeholder="گل"
           />
         </div>
 
-        <span className=" lg:text-2xl text-white mx-4">vs</span>
+        <span className="shrink-0 lg:text-2xl text-white mx-1">vs</span>
 
-        <div className="flex items-center justify-center">
+        <div className="flex min-w-0 items-center justify-center">
           <input
             onChange={(e) => {
               setAwayTeamGoals(e.target.value);
@@ -198,13 +198,15 @@ function PredictionCard({
             value={awayTeamGoals}
             min={0}
             max={10}
-            className="bg-gray-300 w-12 text-center mx-2"
+            className="bg-gray-300 w-10 shrink-0 text-center mx-1"
             type="number"
             placeholder="گل"
           />
           <div className="flex items-center">
-            <h3 className="mx-2 text-base md:text-lg text-white">{awayTeam}</h3>
-            <figure className="size-10 lg:size-16 relative">
+            <h3 className="mx-1 min-w-0 text-sm md:text-lg lg:text-xl text-white">
+              {awayTeam}
+            </h3>
+            <figure className="relative size-10 shrink-0 lg:size-16">
               <Image
                 className="object-contain"
                 src={awayLogo}

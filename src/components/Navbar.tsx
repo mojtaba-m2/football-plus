@@ -59,19 +59,33 @@ function Navbar({ setIsSidebarOpen, isSidebarOpen }: INavbarProps) {
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
 
-            <Link href="/" className="text-lg font-bold sm:text-xl">
+            <Link
+              href="/"
+              className="text-lg text-blue-500 font-bold sm:text-xl"
+            >
               FootballPlus
             </Link>
           </div>
 
           <nav className="hidden w-full items-center gap-6 md:flex">
             <div className="flex items-center gap-6">
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 aria-label={isSidebarOpen ? "بستن منو" : "باز کردن منو"}
                 aria-expanded={isSidebarOpen}
                 className="rounded-lg p-2 transition-colors hover:bg-white/10"
+              >
+                {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+              </button> */}
+              <button
+                type="button"
+                onClick={() => {
+                  alert("hhhiii");
+                }}
+                aria-label={isSidebarOpen ? "بستن منو" : "باز کردن منو"}
+                aria-expanded={isSidebarOpen}
+                className="rounded-lg p-2 text-amber-600 transition-colors hover:bg-white/10"
               >
                 {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
               </button>

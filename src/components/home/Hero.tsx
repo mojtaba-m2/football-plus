@@ -14,9 +14,9 @@ function HeroSection() {
       <div className="absolute z-10 inset-0 bg-black/30"></div>
       <Container>
         <div className="absolute z-20 lg:p-10">
-          <h1 className="text-white mt-1 mx-6 flex items-center before:content-[''] before:w-2 before:h-2 before:bg-green-500/50 before:rounded-full before:ml-2 text-xl  lg:text-5xl">
+          <h1 className="text-white mt-1 mx-6 flex items-center before:content-[''] before:w-2 before:h-2 before:bg-green-500/50 before:rounded-full before:ml-2 text-md lg:text-5xl">
             به دنیای هیجان انگیز
-            <span className="mx-1 text-green-500 font-bold px-1">
+            <span className="mx-1 text-green-500 text-lg font-bold px-1">
               فوتبال پلاس
             </span>
             خوش آمدید
